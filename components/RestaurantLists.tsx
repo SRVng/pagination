@@ -112,8 +112,8 @@ const Pages = (props: {pages: number}) => {
 
   const pageLink = {
     NAVIGATOR: "px-1 cursor-pointer text-2xl text-gray-300 hover:text-gray-900",
-    LINK: "px-4 text-xl hover:font-bold",
-    LINK_ACTIVE: "px-4 text-xl bg-blue-200 rounded",
+    LINK: "px-4 text-xl hover:font-bold cursor-pointer",
+    LINK_ACTIVE: "px-4 text-xl bg-blue-200 rounded cursor-pointer",
     DOT: "px-3 text-xl"
   }
 
