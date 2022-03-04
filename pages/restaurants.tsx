@@ -29,6 +29,9 @@ const Restaurants = ({ restaurants, totalData }: any) => {
   )
 }
 
+// https://github.com/vercel/next.js/discussions/20641
+// Issue at Vercel
+
 export async function getServerSideProps(context: any) {
 
   const query = (context.query.p && context.query.showItems) ? ('?p=' + context.query.p  + '&showItems=' + context.query.showItems) : ''

@@ -23,7 +23,7 @@ const RestaurantLists = ({ restaurants, totalData }: any) => {
         </div>
         <div className="grow-0 h-10"></div>
         <Pages pages={pages} />
-        <ChangeItemPerPage itemPerPages={itemPerPages} />
+        <ChangeItemPerPage />
       </header>
       <section className="mt-6 mb-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {
@@ -44,11 +44,7 @@ const RestaurantLists = ({ restaurants, totalData }: any) => {
   )
 }
 
-interface ChangeItemPerPageProps {
-  itemPerPages: number
-}
-
-const ChangeItemPerPage = (props: ChangeItemPerPageProps) => {
+const ChangeItemPerPage = () => {
 
   const router = useRouter();
   const array = [10, 30, 50, 100];
@@ -106,6 +102,14 @@ const Pages = (props: {pages: number}) => {
     return `&showItems=${router.query.showItems}`
   };
 
+  
+  const handlePagesClick = (page: number) => {
+    router.push({
+      pathname: '/restaurants',
+      query: { p: page, showItems: router.query.showItems }
+    })
+  }
+
   const pageLink = {
     NAVIGATOR: "px-1 cursor-pointer text-2xl text-gray-300 hover:text-gray-900",
     LINK: "px-4 text-xl hover:font-bold",
@@ -122,7 +126,7 @@ const Pages = (props: {pages: number}) => {
   return (
     <div className="flex-1 m-auto text-center">
       <a onClick={() => nextOrBack('back')} className={pageLink.NAVIGATOR}>&lt;</a>
-      <a href={"/restaurants/?p=" + '1' + getQuery()} className={currentPage === 1 ? pageLink.LINK_ACTIVE : pageLink.LINK}>1</a>
+      <a onClick={() => handlePagesClick(1)} className={currentPage === 1 ? pageLink.LINK_ACTIVE : pageLink.LINK}>1</a>
 
       {
         (currentPage - 1) >= 4 && (lastPage >= 10) 
@@ -135,28 +139,28 @@ const Pages = (props: {pages: number}) => {
           lastPage <= 7 &&
           (page !== 1 && page !== lastPage)
         ? (
-          <a href={"/restaurants/?p=" + page + getQuery()} key={page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
+          <a onClick={() => handlePagesClick(page)} key={page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
         )
         : (
             page >= (currentPage - 2)) &&
             (page <= (currentPage + 2)) &&
             (page !== 1 && page !== lastPage)
           ? (
-            <a href={"/restaurants/?p=" + page + getQuery()} key={page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
+            <a onClick={() => handlePagesClick(page)} key={page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
             )
           : (
               currentPage <= 2 &&
               page <= 5 && 
               (page !== 1 && page !== lastPage))
             ? (
-              <a href={"/restaurants/?p=" + page + getQuery()} key={"f" + page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
+              <a onClick={() => handlePagesClick(page)} key={"f" + page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
             ) 
             : (
                 currentPage >= (lastPage - 2) &&
                 page >= (lastPage - 5) && 
                 (page !== 1 && page !== lastPage) 
               ? (
-                <a href={"/restaurants/?p=" + page + getQuery()} key={"l" + page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
+                <a onClick={() => handlePagesClick(page)} key={"l" + page} className={page === currentPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{page}</a>
               )
               : null
               )
@@ -168,7 +172,7 @@ const Pages = (props: {pages: number}) => {
         ? <span className={pageLink.DOT}>...</span> 
         : null
       }
-      <a href={"/restaurants/?p=" + lastPage.toString() + getQuery()} className={currentPage === lastPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{lastPage}</a>
+      <a onClick={() => handlePagesClick(lastPage)} className={currentPage === lastPage ? pageLink.LINK_ACTIVE : pageLink.LINK}>{lastPage}</a>
       <a onClick={() => nextOrBack('next')} className={pageLink.NAVIGATOR}>&gt;</a>
     </div>
   )
