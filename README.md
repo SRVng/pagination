@@ -1,34 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## About
+My first pagination website using Next.js also this is my first time using tailwindcss. (will be responsive soon)
 
-## Getting Started
+## Problems
+This project is running fine in my local development and production (localhost) but when this project deployed through Vercel there are a problem which I assumed that it was caused by getServerSideProps. 500 Internal server error that will occur randomly when browsing through the page.
 
-First, run the development server:
+Later I try to change the way this website navigate to each page.
 
-```bash
-npm run dev
-# or
-yarn dev
+```
+/// Instead of
+ <a href={"/restaurants/?p=" + page + getQuery()} />
+ 
+/// Use this
+    const router = useRouter()
+    ...
+    const handlePagesClick = (page: number) => {
+    router.push({
+      pathname: '/restaurants',
+      query: { p: page, showItems: router.query.showItems }
+      })
+    }
+    ...
+    <a onClick={() => handlePagesClick(page)} />
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+After my initial guess using this method the website working fine on desktop, no more 500 error. **Still got error on mobile**
